@@ -13,6 +13,7 @@ type Config struct {
 	UpdateCount map[string]int
 }
 
+// Count is a callback to count operations per table.
 func Count(m map[string]int) func(*gorm.Scope) {
 	var mu sync.Mutex
 	return func(scope *gorm.Scope) {
@@ -22,6 +23,7 @@ func Count(m map[string]int) func(*gorm.Scope) {
 	}
 }
 
+// RegisterCountCallbacks registers a Count callback for each operation.
 func RegisterCountCallbacks(db *gorm.DB, config *Config) {
 	createCallback := db.Callback().Create()
 	if config.CreateCount != nil {
