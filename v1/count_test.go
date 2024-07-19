@@ -12,9 +12,9 @@ import (
 
 func TestCount(t *testing.T) {
 	db, err := gorm.Open("sqlite3", "file::memory:?cache=shared")
-	db.DB().SetMaxOpenConns(1)
 	require.NoError(t, err)
 	defer db.Close()
+	db.DB().SetMaxOpenConns(1)
 
 	type (
 		Product struct{ gorm.Model }
