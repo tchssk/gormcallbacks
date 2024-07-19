@@ -6,7 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type Config struct {
+type CountConfig struct {
 	CreateCount map[string]int
 	QueryCount  map[string]int
 	DeleteCount map[string]int
@@ -24,7 +24,7 @@ func Count(m map[string]int) func(*gorm.Scope) {
 }
 
 // RegisterCountCallbacks registers a Count callback for each operation.
-func RegisterCountCallbacks(db *gorm.DB, config *Config) {
+func RegisterCountCallbacks(db *gorm.DB, config *CountConfig) {
 	createCallback := db.Callback().Create()
 	if config.CreateCount != nil {
 		createCallback.After("gorm:create").Register("count", Count(config.CreateCount))

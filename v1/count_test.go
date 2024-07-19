@@ -29,7 +29,7 @@ func TestCount(t *testing.T) {
 		deleteCount = make(map[string]int)
 		updateCount = make(map[string]int)
 	)
-	RegisterCountCallbacks(db, &Config{createCount, queryCount, deleteCount, updateCount})
+	RegisterCountCallbacks(db, &CountConfig{createCount, queryCount, deleteCount, updateCount})
 
 	var g = new(errgroup.Group)
 	for i := 0; i < 12; i++ {
