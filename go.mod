@@ -4,7 +4,7 @@ go 1.22.5
 
 require (
 	github.com/jinzhu/gorm v1.9.16
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.11.1
 	golang.org/x/sync v0.7.0
 	gorm.io/driver/sqlite v1.5.6
 	gorm.io/gorm v1.25.11
