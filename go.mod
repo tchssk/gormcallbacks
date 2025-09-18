@@ -1,11 +1,11 @@
 module github.com/tchssk/gormcallbacks
 
-go 1.22.5
+go 1.24.0
 
 require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/sync v0.9.0
+	golang.org/x/sync v0.17.0
 	gorm.io/driver/sqlite v1.6.0
 	gorm.io/gorm v1.31.0
 )
