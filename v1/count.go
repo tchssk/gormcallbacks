@@ -15,16 +15,31 @@ type CountConfig struct {
 
 type (
 	CountOptions struct {
+		CountKey CountKeyFunc
 	}
 	CountOption func(*CountOptions)
 )
 
-// Count is a callback to count operations per table.
+type CountKeyFunc func(*gorm.Scope) string
+
+func WithCountKeyTable() CountOption {
+	return func(o *CountOptions) {
+		o.CountKey = func(scope *gorm.Scope) string {
+			return scope.TableName()
+		}
+	}
+}
+
+var defaultCountOptions = []CountOption{
+	WithCountKeyTable(),
+}
+
+// Count is a callback to count operations.
 func Count(m map[string]int, options *CountOptions) func(*gorm.Scope) {
 	var mu sync.Mutex
 	return func(scope *gorm.Scope) {
 		mu.Lock()
-		m[scope.TableName()]++
+		m[options.CountKey(scope)]++
 		mu.Unlock()
 	}
 }
@@ -32,6 +47,9 @@ func Count(m map[string]int, options *CountOptions) func(*gorm.Scope) {
 // RegisterCountCallbacks registers a Count callback for each operation.
 func RegisterCountCallbacks(db *gorm.DB, config *CountConfig, options ...CountOption) {
 	var opts CountOptions
+	for _, option := range defaultCountOptions {
+		option(&opts)
+	}
 	for _, option := range options {
 		option(&opts)
 	}
